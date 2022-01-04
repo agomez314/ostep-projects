@@ -121,7 +121,7 @@ consider the `access()` system call. For example, when the user types `ls`,
 and path is set to include both `/bin` and `/usr/bin`, try `access("/bin/ls",
 X_OK)`. If that fails, try "/usr/bin/ls". If that fails too, it is an error.
 
-Your initial shell path should contain one directory: `/bin'
+Your initial shell path should contain one directory: `/bin`
 
 Note: Most shells allow you to specify a binary specifically without using a
 search path, using either **absolute paths** or **relative paths**. For
@@ -216,10 +216,10 @@ message whenever you encounter an error of any type:
 The error message should be printed to stderr (standard error), as shown
 above. 
 
-After ~~*any*~~ most errors, your shell simply *continue processing* after
-printing the one and only error message. However, if the shell is invoked with
-more than one file, or if the shell is passed a bad batch file, it should exit
-by calling `exit(1)`.
+After most errors, your shell simply *continue processing* after
+printing the one and only error message. However, if the shell is
+invoked with more than one file, or if the shell is passed a bad batch
+file, it should exit by calling `exit(1)`.
 
 There is a difference between errors that your shell catches and those that
 the program catches. Your shell should catch all the syntax errors specified

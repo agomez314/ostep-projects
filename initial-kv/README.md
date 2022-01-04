@@ -8,11 +8,13 @@ It also serves to get you into the mindset of a C programmer,
 something you will become quite familiar with over the next few
 months. Good luck!
 
-You will write a simple program called `kv`. It is a simple persistent key-value store.
-Key-value storage systems, like RocksDB from Facebook and LevelDB from
-Google, are widely used in industry for various purposes; here, you
-will write a simple one (or a complex one, who knows?) and remember
-the basics of C and systems programming.
+You will write a simple program called `kv`. It is a simple persistent
+key-value store.  Key-value storage systems, like
+[RocksDB](http://rocksdb.org/) from Facebook and
+[LevelDB](https://github.com/google/leveldb) from Google, are widely
+used in industry for various purposes; here, you will write a simple
+one (or a complex one, who knows?) and remember the basics of C and
+systems programming.
 
 The program will have a few options. The first is to insert some (key,
 value) pairs into the database. This is accomplished as follows:
@@ -24,12 +26,12 @@ prompt> ./kv p,20,andrea p,40,someotherperson
 ```
 
 The above line means the users typed in the name of the key-value
-program `reverse` (the `./` in front of it simply refers to the
-current working directory (called dot, referred to as `.`) and the
-slash (`/`) is a separator; thus, in this directory, look for a
-program named `reverse`) and gave it either no command-line arguments,
-one command-line argument (`p,10,remzi`), or two command-line
-arguments (`p,20,andrea p,40,someotherperson`).
+program `kv` (the `./` in front of it simply refers to the current
+working directory (called dot, referred to as `.`) and the slash (`/`)
+is a separator; thus, in this directory, look for a program named
+`kv`) and gave it either no command-line arguments, one command-line
+argument (`p,10,remzi`), or two command-line arguments (`p,20,andrea
+p,40,someotherperson`).
 
 The first invocation, with no arguments, doesn't do anything; not too
 exciting, eh?
@@ -70,7 +72,8 @@ The full list of commands which your KV store should support are:
 - *get*: The format is `g,key`, where `key` is an integer. If the key
 is present, the system should print out the key, followed by a comma,
 followed by the value, followed by a newline (`\n`). If not present,
-nothing is printed.
+print an error message on a line by itself, of the form `K not found`
+where `K` is the actual value of the key, i.e., some integer. 
 - *delete*: The format is `d,key`, which either deletes the relevant
 key-value pair (and prints nothing), or fails to do so (and prints
 `K not found` where `K` is the actual value of the key, i.e., some
@@ -106,7 +109,7 @@ database. Thus, when you later run `kv` and try to get the `1` key,
 you get the value back:
 
 ```sh
-prompt> ./kv g,1,first
+prompt> ./kv g,1
 1,first
 prompt> 
 ```
@@ -143,14 +146,14 @@ tolerate crashes; none of these things are required for this project.
 - **Bad command:** If the command line specifies a bad command, e.g.,
     something that is not a `p`, `g`, `a`, `c`, or `d`, print out the
     warning `bad command` on a line by itself and keep processing the
-    rest of the command line.
+    rest of the command line; importantly, do *not* exit.
 
+- **Unexpected error:** On any unexpected error condition, such as
+    malloc() failing, or failure to open a file successfully, print
+    out a useful error message and exit. This won't be tested, but may
+    be useful for you during development.
 
 ## Useful Routines
-
-To exit, call `exit(1)`. The number you pass to `exit()`, in this case 1, is
-then available to the user to see if the program returned an error (i.e.,
-return a non-zero) or exited cleanly (i.e., returned 0).
 
 For reading in the input file, the following routines will make your life
 easy: `fopen()`, `getline()`, and `fclose()`.
@@ -195,7 +198,7 @@ undo them. A simple way to do this is to keep copies around, by
 explicitly making copies of the file at various points during
 development. For example, let's say you get a simple version of `kv.c`
 working (say, that just reads in the file); type `cp kv.c kv.v1.c` to
-make a copy into the file `reverse.v1.c`. More sophisticated
+make a copy into the file `kv.v1.c`. More sophisticated
 developers use version control systems such as git; such a tool is
 well worth learning, so do it! 
 
